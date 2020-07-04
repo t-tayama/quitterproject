@@ -26,10 +26,12 @@ def home(request):
     all_quiz_list = Quiz.objects.order_by('-created_at')
     quiz_dict = get_quiz_dict(all_quiz_list)
 
-    pv_sorted_list = sorted(quiz_dict.items(), reverse=True, key=lambda x: x[1]['total_count'])
+    pv_sorted_list = sorted(quiz_dict.items(), reverse=True, key=lambda x: x[1]['total_count'])[:5]
+    correct_rate_sorted_list = sorted(quiz_dict.items(), reverse=True, key=lambda x: (x[1]['correct_rate'], x[1]['total_count']))[:5]
 
     context = {
-        'pv_sorted_list': pv_sorted_list
+        'pv_sorted_list': pv_sorted_list,
+        'correct_rate_sorted_list': correct_rate_sorted_list
     }
     return render(request, 'quiz/home.html', context)
 

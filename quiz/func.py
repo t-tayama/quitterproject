@@ -17,7 +17,7 @@ def get_quiz_dict(quiz_list):
         try:
             correct_rate = f'{correct_count / total_count * 100:.1f}%'
         except ZeroDivisionError:
-            correct_rate = 'まだ回答した方がいません。'
+            correct_rate = ""
         quiz_dict[quiz] = {
             # 'quiz_id': quiz_id,
             'total_count': total_count,

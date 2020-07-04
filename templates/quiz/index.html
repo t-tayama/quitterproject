@@ -6,9 +6,10 @@
 <div class="jumbotron">
     <h2>テスト用リンク</h2>
     <div class="btn-group" role="group" aria-label="Basic example">
-        <a href="{% url 'quiz:contact' %}"><button type="button" class="btn btn-primary">/quiz/contact　</button></a>
         <a href="{% url 'quiz:index' %}"><button type="button" class="btn btn-primary">/quiz/</button></a>
+        <a href="{% url 'quiz:home' %}"><button type="button" class="btn btn-primary">/quiz/home</button></a>
         <a href="{% url 'quiz:list' %}"><button type="button" class="btn btn-primary">/quiz/list/</button></a>
+        <a href="{% url 'quiz:contact' %}"><button type="button" class="btn btn-primary">/quiz/contact　</button></a>
         <a href="{% url 'quiz:detail' quiz_pk=3 %}"><button type="button" class="btn btn-success">/quiz/detail/3</button></a>
         <a href="{% url 'quiz:create' %}"><button type="button" class="btn btn-success">/quiz/create　</button></a>
         <a href="{% url 'quiz:edit' quiz_pk=7 %}"><button type="button" class="btn btn-warning">/quiz/edit/7　作成者admin</button></a>
