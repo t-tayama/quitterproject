@@ -1,0 +1,22 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+    <h1>お問い合わせの入力</h1>
+    <hr>
+    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <button type="submit" class='btn btn-dark'>投稿する</button>
+    </form>
+    <hr>
+
+    <div>
+        <a href="JavaScript:history.back()">&lt;戻る</a>
+    </div>
+
+{% endblock content %}
