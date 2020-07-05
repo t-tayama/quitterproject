@@ -15,7 +15,7 @@ def get_quiz_dict(quiz_list):
         total_count = answer.count() # 総回答数
         correct_count = answer.filter(is_correct=True).count() # 正解の回答数
         try:
-            correct_rate = f'{correct_count / total_count * 100:.1f}%'
+            correct_rate = f'{correct_count / total_count * 100:03.0f}%'
         except ZeroDivisionError:
             correct_rate = ""
         quiz_dict[quiz] = {
@@ -23,5 +23,6 @@ def get_quiz_dict(quiz_list):
             'total_count': total_count,
             'correct_rate': correct_rate,
         }
+        print(quiz_dict)
     return quiz_dict
 

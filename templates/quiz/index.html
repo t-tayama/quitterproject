@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
+
+{% block title %} quitter | index {% endblock title %}
+
 {% block jumbotron %}
 
 <div class="jumbotron">
@@ -24,8 +28,6 @@
 
 {% block content %}
 
-
-
 <h2>最新クイズ　<a href="{% url 'quiz:list' %}"><button type="button" class="btn btn-outline-dark">一覧で見る</button></a></h2>
 
 
@@ -46,7 +48,6 @@
 {% else %}
     <p>回答可能なクイズがありません</p>
 {% endif %}
-
 
 {% endblock content %}
 

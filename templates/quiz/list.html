@@ -3,6 +3,8 @@
 
 
 
+{% block title %} quitter | list {% endblock title %}
+
 {% block content %}
 
 <h1>クイズ一覧　<a href="{% url 'quiz:index' %}"><button type="button" class="btn btn-outline-dark">ホームへ</button></a></h1>
@@ -21,10 +23,6 @@
             <th>正答率</th>
         </tr>
     </thead>
-
-
-
-
     <tbody>
         {% for quiz, value in quiz_dict.items %}
         <tr>
