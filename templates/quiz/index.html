@@ -47,4 +47,29 @@
     <p>回答可能なクイズがありません</p>
 {% endif %}
 
+
 {% endblock content %}
+
+{% block sidebar %}
+
+           <ul class="list-group mt-2 mb-3">
+                <!-- 検索はviews.ClassListView内get_queryset関数 -->
+                <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'quiz:search' %}">
+                    <input class="form-control mr-sm-2" type="text" placeholder="タイトル・問題文で" aria-label="Search" name="keyword">
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">検索</button>
+                </form>
+            </ul>
+            <ul class="list-group mb-5">
+                <li class="list-group-item bg-dark text-white">カテゴリ 一覧</li>
+                {% for category in category_list %}
+                    <li class="list-group-item"><a href="{% url 'quiz:category' category.pk %}">{{ category }}</a></li>
+                {% endfor %}
+            </ul>
+            <ul class="list-group">
+                <li class="list-group-item bg-dark text-white">タグ 一覧</li>
+                {% for tag in tag_list %}
+                    <li class="list-group-item"><a href="{% url 'quiz:tag' tag.pk %}">{{ tag }}</a></li>
+                {% endfor %}
+            </ul>
+
+{% endblock sidebar %}

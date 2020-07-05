@@ -55,7 +55,15 @@
   </div>
 </div>
 
+<form action="{% url 'quiz:home' %}" method="post">
+    <div class="btn-group btn-group-lg " role="group" aria-label="Basic example">{% csrf_token %}
+        <button type="submit" name="favorite"  class="btn btn-warning">お気に入り</button>
+        <button type="submit" name="created" class="btn btn-primary">作成した問題</button>
+        <button type="submit" name="answered"  class="btn btn-success">回答した問題</button>
+    </div>
+</form>
 
+<hr>
 
 <hr>
 
