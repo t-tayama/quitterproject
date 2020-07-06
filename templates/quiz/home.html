@@ -6,13 +6,12 @@
 {% block title %} quitter | home {% endblock title %}
 
 {% block customcss %}
-<link rel="stylesheet" href="{% static 'css/cube.css' %}"
+<link rel="stylesheet" href="{% static 'css/tab.css' %}">
 {% endblock customcss %}
 
 
 
 {% block jumbotron %}
-
 <div class="jumbotron">
     <h2>テスト用リンク</h2>
     <div class="btn-group" role="group" aria-label="Basic example">
@@ -33,50 +32,107 @@
 
 
 
-
 {% block content %}
 
-<div class="perspective">
-
-  <label class="tab" for="tab-one">人気クイズ（PV数降順）</label>
-  <label class="tab" for="tab-two">簡単クイズ（正答率降順）</label>
-  <label class="tab" for="tab-three">運営公式クイズ</label>
-  <input type="radio" name="tabs" id="tab-one">
-  <input type="radio" name="tabs" id="tab-two">
-  <input type="radio" name="tabs" id="tab-three">
-
-  <div class="cube">
+<div class="tab-wrap">
+    <input id="TAB02-01" type="radio" name="TAB02" class="tab-switch" checked="checked" /><label class="tab-label" for="TAB02-01">新着順</label>
     <div class="tab-content">
-      <h1>Tab 1</h1>
-      <p>THIS IS AWESOME</p>
+        {% for quiz, value in latest_quiz_dict.items %}
+        <div class="card mb-3">
+            <h2 class="card-header bg-dark text-white">{{ quiz.title }}　PV数：{{ value.total_count }}　正答率：{{ value.correct_rate }}</h2>
+            <div class="card-body">
+                <p>出題者：{{ quiz.author }} | 作成日:{{ quiz.created_at|date:'Y-m-d P' }}</p>
+                <p>カテゴリ：{{ quiz.category }} | タグ：{% for tag in quiz.tag.all %} # {{ tag }}{% endfor %}</p>
+                <p>問題：{{ quiz.text|linebreaksbr }}</p>
+                {% if quiz.image %}<p><img src="{{ quiz.image.url }}" height=300></p>{% endif %}
+                <hr>
+                <a href="{% url 'quiz:detail' quiz.pk %}" class="btn bg-dark text-white">回答する</a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-     <div class="tab-content">
-      <h1>Tab 2</h1>
-      <p>THIS IS COOL</p>
-    </div>
+
+    <input checked="checked" id="TAB02-02" type="radio" name="TAB02" class="tab-switch" /><label class="tab-label" for="TAB02-02">人気順(PV数降順)</label>
     <div class="tab-content">
-      <h1>Tab 3</h1>
-      <p>THIS IS SWEET</p>
+        {% for quiz, value in pv_sorted_list %}
+        <div class="card mb-3">
+            <h2 class="card-header bg-dark text-white">{{ quiz.title }}　PV数：{{ value.total_count }}　正答率：{{ value.correct_rate }}</h2>
+            <div class="card-body">
+                <p>出題者：{{ quiz.author }} | 作成日:{{ quiz.created_at|date:'Y-m-d P' }}</p>
+                <p>カテゴリ：{{ quiz.category }} | タグ：{% for tag in quiz.tag.all %} # {{ tag }}{% endfor %}</p>
+                <p>問題：{{ quiz.text|linebreaksbr }}</p>
+                {% if quiz.image %}<p><img src="{{ quiz.image.url }}" height=300></p>{% endif %}
+                <hr>
+                <a href="{% url 'quiz:detail' quiz.pk %}" class="btn bg-dark text-white">回答する</a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-  </div>
+
+    <input id="TAB02-03" type="radio" name="TAB02" class="tab-switch" /><label class="tab-label" for="TAB02-03">オススメ問題(TOEICタグ)</label>
+    <div class="tab-content">
+        {% for quiz, value in toeic_quiz_dict.items %}
+        <div class="card mb-3">
+            <h2 class="card-header bg-dark text-white">{{ quiz.title }}　PV数：{{ value.total_count }}　正答率：{{ value.correct_rate }}</h2>
+            <div class="card-body">
+                <p>出題者：{{ quiz.author }} | 作成日:{{ quiz.created_at|date:'Y-m-d P' }}</p>
+                <p>カテゴリ：{{ quiz.category }} | タグ：{% for tag in quiz.tag.all %} # {{ tag }}{% endfor %}</p>
+                <p>問題：{{ quiz.text|linebreaksbr }}</p>
+                {% if quiz.image %}<p><img src="{{ quiz.image.url }}" height=300></p>{% endif %}
+                <hr>
+                <a href="{% url 'quiz:detail' quiz.pk %}" class="btn bg-dark text-white">回答する</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <input id="TAB02-04" type="radio" name="TAB02" class="tab-switch" /><label class="tab-label" for="TAB02-04">難しい問題(正答率昇順)</label>
+    <div class="tab-content">
+        {% for quiz, value in correct_rate_sorted_list %}
+        <div class="card mb-3">
+            <h2 class="card-header bg-dark text-white">{{ quiz.title }}　PV数：{{ value.total_count }}　正答率：{{ value.correct_rate }}</h2>
+            <div class="card-body">
+                <p>出題者：{{ quiz.author }} | 作成日:{{ quiz.created_at|date:'Y-m-d P' }}</p>
+                <p>カテゴリ：{{ quiz.category }} | タグ：{% for tag in quiz.tag.all %} # {{ tag }}{% endfor %}</p>
+                <p>問題：{{ quiz.text|linebreaksbr }}</p>
+                {% if quiz.image %}<p><img src="{{ quiz.image.url }}" height=300></p>{% endif %}
+                <hr>
+                <a href="{% url 'quiz:detail' quiz.pk %}" class="btn bg-dark text-white">回答する</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 
-<form action="{% url 'quiz:home' %}" method="post">
-    <div class="btn-group btn-group-lg " role="group" aria-label="Basic example">{% csrf_token %}
-        <button type="submit" name="favorite"  class="btn btn-warning">お気に入り</button>
-        <button type="submit" name="created" class="btn btn-primary">作成した問題</button>
-        <button type="submit" name="answered"  class="btn btn-success">回答した問題</button>
-    </div>
-</form>
-
-<hr>
-
-<hr>
+{% endblock content %}
 
 
 
+{% block sidebar %}
+    <ul class="list-group mt-2 mb-3">
+        <!-- 検索はviews.ClassListView内get_queryset関数 -->
+        <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'quiz:search' %}">
+            <input class="form-control mr-sm-2" type="text" placeholder="タイトル・問題文で" aria-label="Search" name="keyword">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">検索</button>
+        </form>
+    </ul>
+    <ul class="list-group mb-5">
+        <li class="list-group-item bg-dark text-white">カテゴリ 一覧</li>
+        {% for category in category_list %}
+            <li class="list-group-item"><a href="{% url 'quiz:category' category.pk %}">{{ category }}</a></li>
+        {% endfor %}
+    </ul>
+    <ul class="list-group">
+        <li class="list-group-item bg-dark text-white">タグ 一覧</li>
+        {% for tag in tag_list %}
+            <li class="list-group-item"><a href="{% url 'quiz:tag' tag.pk %}">{{ tag }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock sidebar %}
 
-{% if pv_sorted_list %}
+
+
+{% comment %} {% if pv_sorted_list %}
     {% for quiz, value in pv_sorted_list %}
     <div class="card mb-3">
         <h2 class="card-header bg-dark text-white">{{ quiz.title }}　PV数：{{ value.total_count }}　正答率：{{ value.correct_rate }}</h2>
@@ -92,9 +148,9 @@
     {% endfor %}
 {% else %}
     <p>回答可能なクイズがありません</p>
-{% endif %}
+{% endif %} {% endcomment %}
 
-{% if correct_rate_sorted_list %}
+{% comment %} {% if correct_rate_sorted_list %}
     {% for quiz, value in correct_rate_sorted_list %}
     <div class="card mb-3">
         <h2 class="card-header bg-dark text-white">{{ quiz.title }}　PV数：{{ value.total_count }}　正答率：{{ value.correct_rate }}</h2>
@@ -110,6 +166,4 @@
     {% endfor %}
 {% else %}
     <p>回答可能なクイズがありません</p>
-{% endif %}
-
-{% endblock content %}
+{% endif %} {% endcomment %}

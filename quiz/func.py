@@ -22,6 +22,5 @@ def get_quiz_dict(quiz_list):
             'total_count': total_count,
             'correct_rate': correct_rate,
         }
-        print(quiz_dict)
     return quiz_dict
 

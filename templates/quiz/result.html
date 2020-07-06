@@ -27,14 +27,17 @@
             <li>{{ quiz.choice_c }}</li>
             <li>{{ quiz.choice_d }}</li>
         </ul>
-        <hr>
         <p>解説：{{ quiz.explanation }}</p>
-            <a href="{% url 'quiz:index' %}">ホームへ戻る</a>
+        <hr>
+
+
+        <a class="btn btn-light" href="{% url 'quiz:index' %}">ホームへ戻る</a>
         {% if not is_correct %}
-            <br><a href="{% url 'quiz:detail' quiz.pk %}">もう一度挑戦する!</a></br>
+            <a class="btn btn-light ml-3" href="{% url 'quiz:detail' quiz.pk %}">もう一度挑戦する!</a>
         {% endif %}
+        <hr>
+        <a class="btn btn-outline-dark mt-2 float-right" href="{% url 'quiz:report' quiz.pk %}">問題を報告する</a>
     </div>
-    <a href="{% url 'quiz:report' quiz.pk %}">報告する</a>
 </div>
 
 {% endblock content %}

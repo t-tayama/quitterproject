@@ -21,20 +21,29 @@ from .func import  get_quiz_dict
 
 def home(request):
     """
-    * ホーム画面（PV数降順５件、正答率昇順５件）
+    * ホーム画面（新着、PV数降順５件、タグTOEIC、正答率昇順５件）
     """
     all_quiz_list = Quiz.objects.order_by('-created_at')
+
+    # 新着順
+    latest_quiz_dict = get_quiz_dict(all_quiz_list[:5])
+
+    # 人気タグ(TOEIC)
+    toeic_quiz_list = Quiz.objects.filter(tag__name='TOEIC').order_by('created_at')
+    toeic_quiz_dict = get_quiz_dict(toeic_quiz_list)
+
     quiz_dict = get_quiz_dict(all_quiz_list)
-
+    # PVで降順ソート（人気順）
     pv_sorted_list = sorted(quiz_dict.items(), reverse=True, key=lambda x: x[1]['total_count'])[:5]
+    # 正答率で昇順ソート（難問順）
     correct_rate_sorted_list = sorted(quiz_dict.items(), key=lambda x: x[1]['correct_rate'])[:5]
-
     context = {
-        'pv_sorted_list': pv_sorted_list,
-        'correct_rate_sorted_list': correct_rate_sorted_list
+        'latest_quiz_dict': latest_quiz_dict,                   # 新着順 dict型
+        'pv_sorted_list': pv_sorted_list,                       # PV降順 list型
+        'toeic_quiz_dict': toeic_quiz_dict,                     # タグTOEIC dict型
+        'correct_rate_sorted_list': correct_rate_sorted_list    # 正答率昇順 list型
     }
     return render(request, 'quiz/home.html', context)
-
 
 
 def index(request):
@@ -73,7 +82,6 @@ class QuizSearchView(ListView):
     """
     model = Quiz
     template_name = 'quiz/list.html'
-    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -94,7 +102,6 @@ class QuizCategoryView(ListView):
     """
     model = Quiz
     template_name = 'quiz/list.html'
-    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -113,7 +120,6 @@ class QuizTagView(ListView):
     """
     model = Quiz
     template_name = 'quiz/list.html'
-    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -264,23 +270,36 @@ def mypage(request):
     created_quiz_list = Quiz.objects.filter(author=user).order_by('-created_at')
     quiz_dict = get_quiz_dict(created_quiz_list)
     answer_history = Answer.objects.filter(answerer=user).order_by('-answered_at')
-    if request.method == 'POST':
-        if 'favorite' in request.POST:
-            context = {}
-        elif 'created' in request.POST:
-            context = {
-                'quiz_dict': quiz_dict,
-                       }
-        elif 'answered' in request.POST:
-            context = {
-                'answer_history': answer_history,
-                }
-    else:
-        context = {
-            'quiz_dict': quiz_dict,
-            'answer_history': answer_history,
-        }
+    context = {
+        'quiz_dict': quiz_dict,
+        'answer_history': answer_history,
+    }
     return render(request, 'quiz/mypage.html', context)
+
+
+# @login_required
+# def mypage(request):
+#     user = request.user
+#     created_quiz_list = Quiz.objects.filter(author=user).order_by('-created_at')
+#     quiz_dict = get_quiz_dict(created_quiz_list)
+#     answer_history = Answer.objects.filter(answerer=user).order_by('-answered_at')
+#     if request.method == 'POST':
+#         if 'favorite' in request.POST:
+#             context = {}
+#         elif 'created' in request.POST:
+#             context = {
+#                 'quiz_dict': quiz_dict,
+#                        }
+#         elif 'answered' in request.POST:
+#             context = {
+#                 'answer_history': answer_history,
+#                 }
+#     else:
+#         context = {
+#             'quiz_dict': quiz_dict,
+#             'answer_history': answer_history,
+#         }
+#     return render(request, 'quiz/mypage.html', context)
 
 
 def contact(request):
