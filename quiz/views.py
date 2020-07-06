@@ -27,7 +27,7 @@ def home(request):
     quiz_dict = get_quiz_dict(all_quiz_list)
 
     pv_sorted_list = sorted(quiz_dict.items(), reverse=True, key=lambda x: x[1]['total_count'])[:5]
-    correct_rate_sorted_list = sorted(quiz_dict.items(), reverse=True, key=lambda x: x[1]['correct_rate'])[:5]
+    correct_rate_sorted_list = sorted(quiz_dict.items(), key=lambda x: x[1]['correct_rate'])[:5]
 
     context = {
         'pv_sorted_list': pv_sorted_list,
