@@ -132,7 +132,8 @@ LOGIN_REDIRECT_URL = 'quiz:index' # ログイン後のリダイレクト先
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-# STATIC_ROOT = '/var/www/{}/static'.format(PROJECT_NAME) # 本番環境で必要
+# STATIC_ROOT = '/var/www/{}/static'.format(PROJECT_NAME) # 本番環境用
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = '/var/www/{}/media'.format(PROJECT_NAME) # 本番環境用

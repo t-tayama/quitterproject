@@ -21,7 +21,7 @@ from .func import  get_quiz_dict
 
 def home(request):
     """
-    * ホーム画面（新着、PV数降順５件、タグTOEIC、正答率昇順５件）
+    * 新ホーム画面（新着、PV数降順５件、タグTOEIC、正答率昇順５件）
     """
     all_quiz_list = Quiz.objects.order_by('-created_at')
 
@@ -48,7 +48,7 @@ def home(request):
 
 def index(request):
     """
-    * 仮ホーム画面（最新5件リスト表示、作成日降順）
+    * 旧ホーム画面（最新5件リスト表示）
     """
     latest_quiz_list = Quiz.objects.order_by('-created_at')[:5]
     quiz_dict = get_quiz_dict(latest_quiz_list)
@@ -60,7 +60,7 @@ def index(request):
 
 class QuizListView(ListView):
     """
-    * 問題一覧表示（全件リスト表示、作成日降順、１ページ10件）
+    * 問題一覧表示（全件リスト表示、作成日降順、１ページ10件表示）
     """
     model = Quiz
     context_object_name = 'quiz_list'
@@ -78,7 +78,7 @@ class QuizListView(ListView):
 
 class QuizSearchView(ListView):
     """
-    * 検索結果表示（タイトル・問題文によるOR検索、作成日降順、１ページ10件）
+    * 検索結果表示（タイトル・問題文によるOR検索、作成日降順）
     """
     model = Quiz
     template_name = 'quiz/list.html'
